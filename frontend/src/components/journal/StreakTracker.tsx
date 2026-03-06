@@ -3,7 +3,7 @@
 import { StreakData } from '@/types/journal';
 import { Card } from '@/components/ui/card';
 import { Flame, Award, Calendar } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 
 interface StreakTrackerProps {
   streak: StreakData;

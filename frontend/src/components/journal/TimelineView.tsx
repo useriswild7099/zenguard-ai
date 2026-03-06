@@ -3,7 +3,7 @@
 import { JournalEntry } from '@/types/journal';
 import { Card } from '@/components/ui/card';
 import { format, isToday, isYesterday, formatDistanceToNow } from 'date-fns';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 

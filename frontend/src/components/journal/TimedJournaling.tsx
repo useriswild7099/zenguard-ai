@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Timer, Play, Pause, RotateCcw } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 
 interface TimedJournalingProps {
   onComplete: () => void;

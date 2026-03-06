@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { JournalEntry } from '@/types/journal';
 import { getPixelData, moodConfig, MoodLevel } from '@/lib/journal-bridge';
 

@@ -3,7 +3,7 @@
 import { InsightCard } from '@/types/journal';
 import { Card } from '@/components/ui/card';
 import { TrendingUp, Lightbulb, Target, Trophy } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 
 interface InsightsDashboardProps {
   insights: InsightCard[];

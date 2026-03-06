@@ -11,7 +11,7 @@ import { DeepDivePrompts } from '@/components/journal/DeepDivePrompts';
 import { FocusPortal } from '@/components/journal/FocusPortal';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight, Sparkles, Save } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 
 interface NewEntryFlowProps {
