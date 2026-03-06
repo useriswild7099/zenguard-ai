@@ -3,13 +3,30 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 import Image from 'next/image';
 import { sentimentClient } from '@/lib/api';
-import ChatInterface from '@/components/ChatInterface';
-import KnowledgeHub from '@/components/KnowledgeHub';
-import HelpHub from '@/components/HelpHub';
-import CopingNavigator from '@/components/CopingNavigator';
-import FeatureShowcase from '@/components/FeatureShowcase';
-import BackgroundMusic from '@/components/BackgroundMusic';
-import SiaAssistant from '@/components/SiaAssistant';
+import dynamic from 'next/dynamic';
+
+// Dynamic imports for secondary views to reduce initial bundle size
+const ChatInterface = dynamic(() => import('@/components/ChatInterface'), { 
+  loading: () => <div className="animate-pulse glass w-full h-96 rounded-3xl" /> 
+});
+const KnowledgeHub = dynamic(() => import('@/components/KnowledgeHub'), { 
+  loading: () => <div className="animate-pulse glass w-full h-96 rounded-3xl" /> 
+});
+const HelpHub = dynamic(() => import('@/components/HelpHub'), { 
+  loading: () => <div className="animate-pulse glass w-full h-96 rounded-3xl" /> 
+});
+const CopingNavigator = dynamic(() => import('@/components/CopingNavigator'));
+const FeatureShowcase = dynamic(() => import('@/components/FeatureShowcase'));
+const MoodDoodle = dynamic(() => import('@/components/MoodDoodle'));
+const BreathingExercise = dynamic(() => import('@/components/BreathingExercise'));
+const GroundingExercise = dynamic(() => import('@/components/GroundingExercise'));
+const WellnessPillars = dynamic(() => import('@/components/WellnessPillars'));
+const MethodologySection = dynamic(() => import('@/components/MethodologySection'));
+const TechnicalPrivacySection = dynamic(() => import('@/components/TechnicalPrivacySection'));
+const SafetySection = dynamic(() => import('@/components/SafetySection'));
+const SiaAssistant = dynamic(() => import('@/components/SiaAssistant'), { ssr: false });
+const BackgroundMusic = dynamic(() => import('@/components/BackgroundMusic'), { ssr: false });
+
 import { 
   PenLine, MessageCircle, 
   WifiOff, Cpu, UserX, Code, 
@@ -17,13 +34,6 @@ import {
   GraduationCap, Sparkles, LifeBuoy, Zap, Languages,
   Palette, Wind, MapPin, Volume2, VolumeX
 } from 'lucide-react';
-import MoodDoodle from '@/components/MoodDoodle';
-import BreathingExercise from '@/components/BreathingExercise';
-import GroundingExercise from '@/components/GroundingExercise';
-import WellnessPillars from '@/components/WellnessPillars';
-import MethodologySection from '@/components/MethodologySection';
-import TechnicalPrivacySection from '@/components/TechnicalPrivacySection';
-import SafetySection from '@/components/SafetySection';
 
 // ZenGuard Journal imports
 import { JournalEntry } from '@/types/journal';
@@ -43,32 +53,40 @@ import React, { memo } from 'react';
 
 // Memoized background component to prevent re-renders when parent state changes
 const VideoBackground = memo(({ activeView, isLight }: { activeView: string; isLight: boolean }) => {
+  const isLandingOrJournal = activeView === 'landing' || activeView === 'journal';
+  
   return (
-    <div className={`fixed inset-0 overflow-hidden -z-10 transition-opacity duration-1000 ${isLight ? 'opacity-0' : 'opacity-100'}`}>
-      {activeView === 'landing' || activeView === 'journal' ? (
+    <div className={`fixed inset-0 overflow-hidden -z-10 transition-opacity duration-1000 ${isLight ? 'opacity-0' : 'opacity-100'}`} style={{ transform: 'translateZ(0)' }}>
+      {isLandingOrJournal ? (
         <video
-          autoPlay loop muted playsInline preload="metadata"
-          className="absolute w-full h-full object-cover"
-          style={{ filter: activeView === 'landing' ? 'brightness(0.7)' : 'brightness(0.5)' }}
+          autoPlay loop muted playsInline preload="auto"
+          className="absolute w-full h-full object-cover will-change-transform"
+          style={{ 
+            filter: activeView === 'landing' ? 'brightness(0.7)' : 'brightness(0.5)',
+            transform: 'translate3d(0, 0, 0)'
+          }}
         >
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
       ) : (
         <video
           autoPlay loop muted playsInline preload="metadata"
-          className="absolute w-full h-full object-cover"
-          style={{ filter: activeView === 'help' ? 'brightness(0.2)' : activeView === 'knowledge' ? 'brightness(0.4)' : 'brightness(0.6)' }}
+          className="absolute w-full h-full object-cover will-change-transform"
+          style={{ 
+            filter: activeView === 'help' ? 'brightness(0.2)' : activeView === 'knowledge' ? 'brightness(0.4)' : 'brightness(0.6)',
+            transform: 'translate3d(0, 0, 0)'
+          }}
         >
           <source src="/chat-bg.mp4" type="video/mp4" />
         </video>
       )}
-      <div className={`absolute inset-0 ${
-        activeView === 'help' ? 'bg-black/80 backdrop-blur-[6px]' :
-        activeView === 'knowledge' ? 'bg-black/60 backdrop-blur-[4px]' :
+      <div className={`absolute inset-0 transition-all duration-700 ${
+        activeView === 'help' ? 'bg-black/80 backdrop-blur-[4px]' :
+        activeView === 'knowledge' ? 'bg-black/60 backdrop-blur-[3px]' :
         activeView === 'chat' ? 'bg-black/40 backdrop-blur-[2px]' :
         activeView === 'landing' ? 'bg-gradient-to-b from-black/30 via-black/20 to-black/40' :
         'bg-black/50 backdrop-blur-[1px]'
-      }`}></div>
+      }`} style={{ transform: 'translateZ(0)' }}></div>
     </div>
   );
 });
